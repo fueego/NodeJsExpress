@@ -2,15 +2,26 @@
 var express = require("express");
 
 var app = express();
-var port = 5000;
+
+var port = process.env.PORT || 5000;
 
 //static files
 app.use(express.static('public'));
-app.use(express.static('src/views'));
+app.set('views', './src/views');
+
+app.set('view engine', 'ejs');
 
 //routers 
 app.get('/', function(req, res){
-    res.send("Hello world this is my homepage");
+    res.render('index', 
+        {
+        title: "Siemka sciemka", 
+        nav: [
+            {Link:'/Books', Text:'Books'}, 
+            {Link:'/Authors', Text:'Authors'}
+            ]
+        }
+    );
 });
 
 app.get('/books', function(req, res){
